@@ -1,1 +1,1 @@
-# BD2-frontend
+# BD2
