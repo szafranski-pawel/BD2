@@ -23,7 +23,7 @@ app.get("/scooters", async (req, res) => {
     }
 });
 
-app.get('/api/roles',           (req, res) => { roles(client, req, res) });
+app.get('/api/roles',           (req, res) => { roles(pool, req, res) });
 app.post('/api/login',          (req, res) => { login(pool, req, res) });
 app.post('/api/add_employee',   (req, res) => { add_employee(pool, req, res) });
 app.post('/api/add_customer',   (req, res) => { add_customer(pool, req, res) });
