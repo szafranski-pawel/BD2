@@ -23,38 +23,33 @@ module.exports.add_customer = async function(pool, req, res) {
             [customer.name, customer.surname, customer.email, addressID, passID]);
         res.send({message: 'Success'});
     } else {
-        res.send({mesage: 'Error'});
+        res.send({message: 'Error'});
     }
 };
 
-// module.exports.add_employee = function(pool, req, res) {
-//     const employee = req.body;
+module.exports.add_employee = async function(pool, req, res) {
+    const employee = req.body;
 
-//     isEmailRegistered(pool, employee.email).then((isRegistered) => {
-//         if (!isRegistered) {
-//             pool.query(`INSERT INTO "address" ("ADDRESS1", "ADDRESS2", "POSTAL_CODE", "CITY") VALUES($1, $2, $3, $4);`,
-//                         [employee.address1, employee.address2, employee.postalCode,employee.city]
-//             ).then(() => {
-//                 return pool.query('SELECT "ID" FROM "address" WHERE "ID"=(SELECT MAX("ID") FROM "address");');
-//             }).then((resp) => {
-//                 const addressID = resp.rows[0]["ID"];
-//                 return pool.query(
-//                     `INSERT INTO "EMPLOYEE" ("ID", "password", "FIRST_NAME", "LAST_NAME", 
-//                                             "PESEL", "SALARY", "ACCOUNT_NO", "ADDRESS_ID") 
-//                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`, 
-//                     [employee.email, employee.password, employee.firstName, employee.lastName, 
-//                     employee.PESEL, employee.salary, employee.accountNumber, addressID]);
-//             }).then(() => {
-//                 return pool.query(`INSERT INTO "EMPLOYEE_ROLE" ("ROLE_ID", "EMPLOYEE_ID") VALUES($1, $2)`, 
-//                     [employee.role.id, employee.email]);
-//             }).then(() => {
-//                 res.send({message: 'Success'});
-//             });
-//         } else {
-//             res.send({mesage: 'Error'});
-//         }
-//     });
-// };
+    const isRegistered = isEmailRegistered(pool, employee.email);
+
+    if (!isRegistered) {
+        var resp = await pool.query(`SELECT "position_name" FROM "position" WHERE "position_name" = $1;`, [employee.position]);
+        if (resp.rows.length !== 1) {
+            res.send({message: 'Error'});
+        }
+        resp = await pool.query(`INSERT INTO "address" ("address") VALUES($1) RETURNING "id_address";`, [employee.address]);
+        const addressID = resp.rows[0]["ID_ADDRESS"];
+        resp = await pool.query(`INSERT INTO "password" ("password") VALUES($1) RETURNING "id_password";`, [employee.password]);
+        const passID = resp.rows[0]["id_password"];
+        await pool.query(
+            `INSERT INTO "employee" ("name", "surname", "email", "id_address", "id_password", "position_name",) 
+            VALUES ($1, $2, $3, $4, $5, $6);`, 
+            [employee.name, employee.surname, employee.email, addressID, passID, employee.position]);
+        res.send({message: 'Success'});
+    } else {
+        res.send({message: 'Error'});
+    }
+};
 
 module.exports.login = async function(pool, req, res) {
     const info = req.body;
@@ -89,17 +84,11 @@ module.exports.login = async function(pool, req, res) {
     }
 };
 
-// module.exports.roles = function(pool, req, res) {
-//     pool.query(
-//         'SELECT "ID", "NAME" FROM "ROLE";'
-//     ).then((qres) => {
-//         let roles = new Array();
-//         for (let i = 0; i < qres.rows.length; ++i) {
-//             roles.push({
-//                 id: qres.rows[i]["ID"],
-//                 name: qres.rows[i]["NAME"],
-//             });
-//         }
-//         res.send({message: roles});
-//     });
-// };
+module.exports.roles = async function(pool, req, res) {
+    const resp = pool.query('SELECT "position_name" FROM "position";')
+    let roles = new Array();
+    for (let i = 0; i < resp.rows.length; ++i) {
+        roles.push(resp.rows[i]["position_name"]);
+    }
+    res.send({message: roles});
+};

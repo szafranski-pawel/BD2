@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
-const { add_customer, add_employee, login } = require('./accounts');
+const { add_customer, add_employee, login, roles } = require('./accounts');
 
 
 
@@ -23,8 +23,9 @@ app.get("/scooters", async (req, res) => {
     }
 });
 
-app.get('/api/login',          (req, res) => { login(pool, req, res) });
-app.get('/api/add_employee',   (req, res) => { add_employee(pool, req, res) });
-app.get('/api/add_customer',   (req, res) => { add_customer(pool, req, res) });
+app.get('/api/roles',           (req, res) => { roles(client, req, res) });
+app.post('/api/login',          (req, res) => { login(pool, req, res) });
+app.post('/api/add_employee',   (req, res) => { add_employee(pool, req, res) });
+app.post('/api/add_customer',   (req, res) => { add_customer(pool, req, res) });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
