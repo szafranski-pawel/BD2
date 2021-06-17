@@ -87,8 +87,11 @@ module.exports.login = async function(pool, req, res) {
 module.exports.roles = async function(pool, req, res) {
     const resp = pool.query('SELECT "position_name" FROM "position";')
     let roles = new Array();
-    for (let i = 0; i < resp.rows.length; ++i) {
-        roles.push(resp.rows[i]["position_name"]);
+    if (resp.rows != null) {
+        for (let i = 0; i < resp.rows.length; ++i) {
+            roles.push(resp.rows[i]["position_name"]);
+        }
+        res.send({message: roles});
     }
-    res.send({message: roles});
+    res.send({message: 'Error'});
 };
