@@ -7,3 +7,10 @@ module.exports.showAvailableScooters = async function(pool, req, res) {
         console.error(err.message);
     }
 };
+
+module.exports.rentScooter = async function(pool, req, res) {
+    const info = req.body;
+    const resp = await pool.query('UPDATE "scooter" SET "id_status" = $2 WHERE "serial_numeric" = $1;', [info.serial, 2])
+    console.log(`Rent scooters`);
+    res.send({message: 'Rented'});
+};
