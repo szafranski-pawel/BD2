@@ -3,8 +3,6 @@ const cors = require("cors");
 const pool = require("./db");
 const { add_customer, add_employee, login, roles } = require('./accounts');
 
-
-
 /*
  * APP INITIALIZATION
  */
