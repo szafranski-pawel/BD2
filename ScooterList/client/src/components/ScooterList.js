@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import scooter_pic from './scooter.png';
 
 const ScooterList = () => {
 
@@ -24,23 +25,25 @@ const ScooterList = () => {
         <table class="table table-striped table-bordered mt-5">
     <thead>
       <tr>
-        <th scope="col">Serial number</th>
-        <th scope="col">Status</th>
-        <th scope="col">Age</th>
-        <th scope="col">Latitude</th>
-        <th scope="col">Longitude</th>
-        <th scope="col"></th>
+        <th className="text-center" scope="col"></th>
+        <th className="text-center" scope="col">Serial number</th>
+        <th className="text-center" scope="col">Status</th>
+        <th className="text-center" scope="col">Age</th>
+        <th className="text-center" scope="col">Latitude</th>
+        <th className="text-center" scope="col">Longitude</th>
+        <th className="text-center" scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {scooters.map(scooter => (
-        <tr key={scooter.ID_SCOOTER}>
-          <td>{scooter.SERIAL_NUMERIC}</td>
-          <td>{scooter.CONDITIONTYPE}</td>
-          <td>{scooter.AGE}</td>
-          <td>{scooter.LATITUDE}</td>
-          <td>{scooter.LONGITUDE}</td>
-          <td><button className="btn btn-success">Book this scooter</button></td>
+        <tr key={scooter.id_scooter}>
+          <td className="text-center"><img src={scooter_pic} alt="scooter.png"></img></td>
+          <td className="text-center align-middle">{scooter.serial_numeric}</td>
+          <td className="text-center align-middle">{scooter.conditiontype}</td>
+          <td className="text-center align-middle">{scooter.age}</td>
+          <td className="text-center align-middle">{scooter.latitude}</td>
+          <td className="text-center align-middle">{scooter.longitude}</td>
+          <td className="text-center align-middle"><button className="btn btn-success">Book this scooter</button></td>
         </tr>
       ))}
     </tbody>
