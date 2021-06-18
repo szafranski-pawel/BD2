@@ -24,7 +24,7 @@ const ScooterRent = () => {
     }, []);
 
     return (<Fragment>
-        <h1 className = "text-center mt-5">Available Scooters near Your Location</h1>
+        <h1 className = "text-center mt-5">Wypożyczone hulajnogi</h1>
         <table class="table table-striped table-bordered mt-5">
     <thead>
       <tr>
