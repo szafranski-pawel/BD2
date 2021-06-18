@@ -35,7 +35,7 @@ export default function Login() {
       }
       else{
         userHasAuthenticated(true);
-        if (data.type === "admin"){
+        if (data.message.type === "kierownik"){
           adminLoggedIn(true);
         }
         else {
