@@ -21,7 +21,7 @@ const ScooterList = () => {
 
     useEffect(() => {
         getScooters();
-    });
+    }, []);
 
     return (<Fragment>
         <h1 className = "text-center mt-5">Available Scooters near Your Location</h1>
@@ -60,6 +60,7 @@ const ScooterList = () => {
               fetch('http://localhost:5000/api/rent', requestOptions).then(async response => {
                 const data = await response.json();
                 alert(data.message);
+                getScooters();
                 history.push("/scooters");
               }).catch(error => {
                   alert(error);
