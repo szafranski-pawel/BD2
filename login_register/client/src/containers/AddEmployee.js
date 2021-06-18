@@ -111,7 +111,7 @@ export default function AddEmployee() {
           />
         </Form.Group>
         <Button block size="lg" type="submit" disabled={!validateForm()}>
-          Login
+          Add Employee
         </Button>
         </Form>
     </div>
