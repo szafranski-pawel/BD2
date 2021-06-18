@@ -1,8 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import scooter_pic from './scooter.png';
+import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
 
 
 const ScooterList = () => {
+  const history = useHistory();
   const [scooters, setScooters] = useState([]);
     const getScooters = async() => {
         try {
@@ -18,7 +21,7 @@ const ScooterList = () => {
 
     useEffect(() => {
         getScooters();
-    }, []);
+    });
 
     return (<Fragment>
         <h1 className = "text-center mt-5">Available Scooters near Your Location</h1>
@@ -43,7 +46,26 @@ const ScooterList = () => {
           <td className="text-center align-middle">{scooter.age}</td>
           <td className="text-center align-middle">{scooter.latitude}</td>
           <td className="text-center align-middle">{scooter.longitude}</td>
-          <td className="text-center align-middle"><button className="btn btn-success">Book this scooter</button></td>
+          <td className="text-center align-middle"><Button href='/' onClick={(event) => { 
+              const fields = {
+                'serial': scooter.serial_numeric,
+              }
+              event.preventDefault();
+              const requestOptions = {
+                  method: 'POST',
+                  mode: 'cors',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(fields),
+              };
+              fetch('http://localhost:5000/api/rent', requestOptions).then(async response => {
+                const data = await response.json();
+                alert(data.message);
+                history.push("/scooters");
+              }).catch(error => {
+                  alert(error);
+              });
+            }}>Wycofaj</Button>
+          </td>
         </tr>
       ))}
     </tbody>
