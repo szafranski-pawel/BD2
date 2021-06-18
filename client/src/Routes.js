@@ -6,6 +6,8 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import AddEmployee from "./containers/AddEmployee";
 import ScooterList from './containers/ScooterList';
+import ScooterRent from './containers/ScooterRented';
+
 import { useAppContext } from "./libs/contextLib";
 
 export default function Routes() {
@@ -16,6 +18,7 @@ export default function Routes() {
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/scooters" render = {() => (isAuthenticated ?  (<ScooterList />) : (<Redirect to="/login" />))} />
+      <Route exact path="/rent_scooters" render = {() => (isAuthenticated ?  (<ScooterRent />) : (<Redirect to="/login" />))} />
       <Route exact path="/add_employee" render = {() => ((isAdmin && isAuthenticated) ?  (<AddEmployee />) : (<Redirect to="/login" />))} />
       <Route component={NotFound} />
     </Switch>

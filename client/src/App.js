@@ -23,6 +23,9 @@ function App() {
   function scooterList() {
     history.push("/scooters");
   }
+  function scooterRent() {
+    history.push("/rent_scooters");
+  }
   return (
     <div className="App container py-3">
       <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
@@ -43,6 +46,7 @@ function App() {
           isAuthenticated ? (
             <>
             <Nav.Link onClick={scooterList}>Scooter List</Nav.Link>
+            <Nav.Link onClick={scooterRent}>Rented Scooters</Nav.Link>
             <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             </>
           ) : (
@@ -64,7 +68,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

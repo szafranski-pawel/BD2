@@ -4,13 +4,13 @@ import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 
 
-const ScooterList = () => {
+const ScooterRent = () => {
   const history = useHistory();
   const [scooters, setScooters] = useState([]);
     const getScooters = async() => {
         try {
             
-            const response = await fetch("http://localhost:5000/scooters");
+            const response = await fetch("http://localhost:5000/rent_scooters");
             const jsonData = await response.json();
             
             setScooters(jsonData);
@@ -57,15 +57,15 @@ const ScooterList = () => {
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(fields),
               };
-              fetch('http://localhost:5000/api/rent', requestOptions).then(async response => {
+              fetch('http://localhost:5000/api/return', requestOptions).then(async response => {
                 const data = await response.json();
                 alert(data.message);
                 getScooters();
-                history.push("/scooters");
+                history.push("/rent_scooters");
               }).catch(error => {
                   alert(error);
               });
-            }}>Wypożycz</Button>
+            }}>Zwróć</Button>
           </td>
         </tr>
       ))}
@@ -75,4 +75,4 @@ const ScooterList = () => {
     );
 };
 
-export default ScooterList;
+export default ScooterRent;
